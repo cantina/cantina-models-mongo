@@ -1,0 +1,30 @@
+{
+  "name": "cantina-models-mongo",
+  "version": "0.0.0",
+  "description": "MongoDB store implementing a modeler-compatible API for cantina-models",
+  "private": true,
+  "main": "cantina-models-mongo.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cantina/cantina-models-mongo.git"
+  },
+  "author": "",
+  "license": "none",
+  "bugs": {
+    "url": "https://github.com/cantina/cantina-models-mongo/issues"
+  },
+  "homepage": "https://github.com/cantina/cantina-models-mongo",
+  "dependencies": {
+    "idgen": "^1.3.0",
+    "underscore": "^1.6.0"
+  },
+  "devDependencies": {
+    "mocha": "^1.18.2",
+    "cantina": "cantina/cantina.git#3.x",
+    "cantina-models": "cantina/cantina-models.git#3.1.x",
+    "cantina-mongo": "cantina/cantina-mongo.git#3.x"
+  }
+}
