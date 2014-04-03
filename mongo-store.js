@@ -15,7 +15,7 @@ module.exports = function (_opts) {
 
   // Ensure indexes exist
   // No other operations can happen while indexes are being created, so we
-  // run this on initialize and only really can if there's an error
+  // run this on initialize and only really care if there's an error
   collection.ensureIndex([{ "id": 1, "rev": 1 }], { unique: true }, function (err) {
     if (err) app.emit('error', err);
   });

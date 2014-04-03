@@ -1,10 +1,10 @@
-var app = require('cantina');
+var app = require('cantina')
+  , mongoStore = require('./mongo-store');
 
 require('cantina-models');
 require('cantina-mongo');
 
 app.hook('start').add(function (done) {
-  var store = require('./store');
-  app.createCollectionFactory('mongo', store, { db: app.mongo });
+  app.createCollectionFactory('mongo', mongoStore, { db: app.mongo });
   done();
 });
