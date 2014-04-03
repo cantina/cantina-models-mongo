@@ -11,7 +11,8 @@ module.exports = function (_opts) {
   if (!opts.name) throw new Error('must pass a collection name with options.name');
 
   var db = opts.db
-    , collection = db.collection(opts.name), nativeSave = collection.save;
+    , collection = db.collection(opts.name)
+    , nativeSave = collection.save;
 
   // Ensure indexes exist
   // No other operations can happen while indexes are being created, so we
