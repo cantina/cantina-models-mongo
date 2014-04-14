@@ -1,5 +1,5 @@
 var app = require('cantina')
-  , mongoStore = require('./mongo-store');
+  , mongoStore = require('./lib/mongo-store');
 
 require('cantina-models');
 require('cantina-mongo');
