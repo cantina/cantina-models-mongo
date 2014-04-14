@@ -88,6 +88,7 @@ module.exports = function (_opts) {
       options.upsert = rev > 0 ? false : true;
       collection.findAndModify({ id: saveEntity.id, rev: rev }, null, saveEntity, options, function (err, resultEntity) {
         if (err) return cb(err);
+        if (!resultEntity) return cb(null, null);
         if (opts.afterSave) opts.afterSave(resultEntity, function (err) {
           if (err) return cb(err);
           cb(null, resultEntity);
