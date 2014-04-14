@@ -63,7 +63,6 @@ describe('basic', function (){
         assert.equal(saveModel.rev, 2);
         done();
       });
-
     });
     it('can load a model', function (done) {
       app.collections.people.load(model.id, function (err, loadModel) {
@@ -85,14 +84,33 @@ describe('basic', function (){
         done();
       });
     });
-    it('can destroy a model', function (done) {
-      app.collections.people.destroy(model, function (err) {
+    it('can save partial changes to an existing model', function (done) {
+      var attrs = {
+        id: model.id,
+        rev: model.rev,
+        first: 'Ultimate',
+        last: 'Warrior'
+      };
+      app.collections.people.save(attrs, function (err, saveModel) {
         assert.ifError(err);
-        // verify it's gone
-        app.collections.people.load(model.id, function (err, loadModel) {
+        assert.equal(saveModel.first, 'Ultimate');
+        assert.equal(saveModel.last, 'Warrior');
+        assert.equal(saveModel.email, model.email);
+        assert.equal(saveModel.rev, 3);
+        done();
+      });
+    });
+    it('can destroy a model', function (done) {
+      app.collections.people.load(model.id, function (err, getModel) {
+        assert.ifError(err);
+        app.collections.people.destroy(getModel, function (err) {
           assert.ifError(err);
-          assert.equal(loadModel, null);
-          done();
+          // verify it's gone
+          app.collections.people.load(model.id, function (err, loadModel) {
+            assert.ifError(err);
+            assert.equal(loadModel, null);
+            done();
+          });
         });
       });
     });
