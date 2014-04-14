@@ -1,5 +1,6 @@
 var app = require('cantina')
   , idgen = require('idgen')
+  , nested = require('nested-objects')
   , _ = require('underscore');
 
 // Note that unlike modeler, we do not guarantee that you can list documents
@@ -86,7 +87,15 @@ module.exports = function (_opts) {
       if (err) return cb(err);
 
       options.upsert = rev > 0 ? false : true;
-      collection.findAndModify({ id: saveEntity.id, rev: rev }, null, saveEntity, options, function (err, resultEntity) {
+      var setEntity;
+      if (rev > 0) {
+        setEntity = copy(saveEntity);
+        unchangeables.forEach(function (prop) {
+          nested.delete(setEntity, prop);
+        });
+      }
+      setEntity || (setEntity = saveEntity);
+      collection.findAndModify({ id: saveEntity.id, rev: rev }, null, { $set: setEntity }, options, function (err, resultEntity) {
         if (err) return cb(err);
         if (!resultEntity) return cb(null, null);
         if (opts.afterSave) opts.afterSave(resultEntity, function (err) {
@@ -169,6 +178,8 @@ module.exports = function (_opts) {
 
   return collection;
 };
+
+var unchangeables = [ '_id', 'id', 'created' ];
 
 function defaultCb (err) {
   if (err) app.emit('error', err);

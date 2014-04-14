@@ -19,7 +19,8 @@
   "homepage": "https://github.com/cantina/cantina-models-mongo",
   "dependencies": {
     "idgen": "^1.3.0",
-    "underscore": "^1.6.0"
+    "underscore": "^1.6.0",
+    "nested-objects": "0.0.1"
   },
   "devDependencies": {
     "mocha": "^1.18.2",
