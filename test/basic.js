@@ -64,6 +64,21 @@ describe('basic', function (){
         done();
       });
     });
+    it('adds _changed hash when changing an existing model', function (done) {
+      model.first = 'Ultimate';
+      model.last = 'Warrior';
+      app.collections.people.save(model, function (err, saveModel) {
+        assert.ifError(err);
+        assert.equal(saveModel.first, 'Ultimate');
+        assert.equal(saveModel.last, 'Warrior');
+        assert.equal(saveModel.rev, 3);
+        assert(saveModel._changed.first);
+        assert(saveModel._changed.last);
+        assert(!saveModel._changed._id);
+        assert(!saveModel._changed._changed);
+        done();
+      });
+    });
     it('can load a model', function (done) {
       app.collections.people.load(model.id, function (err, loadModel) {
         assert.ifError(err);
@@ -96,7 +111,7 @@ describe('basic', function (){
         assert.equal(saveModel.first, 'Ultimate');
         assert.equal(saveModel.last, 'Warrior');
         assert.equal(saveModel.email, model.email);
-        assert.equal(saveModel.rev, 3);
+        assert.equal(saveModel.rev, 4);
         done();
       });
     });
