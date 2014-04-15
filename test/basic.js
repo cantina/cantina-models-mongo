@@ -79,14 +79,35 @@ describe('basic', function (){
         done();
       });
     });
-    it('can load a model', function (done) {
+    it('can load a model by id', function (done) {
       app.collections.people.load(model.id, function (err, loadModel) {
         assert.ifError(err);
+        assert(loadModel);
         Object.keys(loadModel).forEach(function (prop) {
           if (prop === '_id') assert(loadModel[prop].equals(model[prop]));
           else if (prop === 'created' || prop === 'updated') assert.equal(loadModel[prop].toString(), model[prop].toString());
           else assert.equal(loadModel[prop], model[prop]);
         });
+        done();
+      });
+    });
+    it('can load a model by query', function (done) {
+      app.collections.people.load({ first: 'Ultimate' }, function (err, loadModel) {
+        assert.ifError(err);
+        assert(loadModel);
+        Object.keys(loadModel).forEach(function (prop) {
+          if (prop === '_id') assert(loadModel[prop].equals(model[prop]));
+          else if (prop === 'created' || prop === 'updated') assert.equal(loadModel[prop].toString(), model[prop].toString());
+          else assert.equal(loadModel[prop], model[prop]);
+        });
+        done();
+      });
+    });
+    it('can load a model with options hash', function (done) {
+      app.collections.people.load(model.id, { returnKey: true }, function (err, result) {
+        assert.ifError(err);
+        assert(result);
+        assert.deepEqual(result, { id: model.id, rev: model.rev });
         done();
       });
     });
