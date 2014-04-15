@@ -120,6 +120,23 @@ describe('basic', function (){
         done();
       });
     });
+    it('can list models by query', function (done) {
+      app.collections.people.list({ last: 'Warrior' }, null, function (err, list) {
+        assert.ifError(err);
+        assert.equal(list.length, 1);
+        assert.equal(list[0].id, model.id);
+        done();
+      });
+    });
+    it('can list models with an options hash', function (done) {
+      app.collections.people.list({ fields: { last: 1 } }, function (err, list) {
+        assert.ifError(err);
+        assert.equal(list.length, 1);
+        assert.equal(list[0].last, model.last);
+        assert.strictEqual(list[0].first, undefined);
+        done();
+      });
+    });
     it('can save partial changes to an existing model', function (done) {
       var attrs = {
         id: model.id,
