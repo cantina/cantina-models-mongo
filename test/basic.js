@@ -206,12 +206,20 @@ describe('basic', function (){
     });
   });
 
-  describe('mongodb-native methods', function () {
+  describe('mongodb native collection methods', function () {
+    // Just a couple to make sure
     it('#findOne', function (done) {
-      app.collections.people.findOne({}, function (err, model) {
+      app.collections.people._findOne({}, function (err, model) {
         assert.ifError(err);
         assert(model);
         assert(model._id);
+        done();
+      });
+    });
+    it('#count', function (done) {
+      app.collections.people._count({}, function (err, count) {
+        assert.ifError(err);
+        assert.strictEqual(count, 2);
         done();
       });
     });
