@@ -196,4 +196,99 @@ describe('basic', function (){
     });
   });
 
+  describe('field projections', function () {
+    var spy = {
+      codename: '007',
+      covername: 'James Bond',
+      realname: 'Dan MacTough'
+    };
+    it('can create a collection with private properties', function () {
+      var opts = {
+        privateProperties: [ 'realname' ]
+      };
+      app.createMongoCollection('spies', opts);
+      assert(app.collections.spies);
+    });
+    it('hides private properties on save', function (done) {
+      app.collections.spies.create(spy, function (err, savedModel) {
+        assert.ifError(err);
+        assert.strictEqual(savedModel.codename, spy.codename);
+        assert.strictEqual(savedModel.covername, spy.covername);
+        assert.strictEqual(savedModel.realname, undefined);
+        assert(Object.keys(savedModel).every(function (prop) { return prop !== 'realname'; }));
+        spy.id = savedModel.id;
+        done();
+      });
+    });
+    it('hides private properties on load', function (done) {
+      app.collections.spies.load(spy.id, function (err, loadModel) {
+        assert.ifError(err);
+        assert.strictEqual(loadModel.codename, spy.codename);
+        assert.strictEqual(loadModel.covername, spy.covername);
+        assert.strictEqual(loadModel.realname, undefined);
+        assert(Object.keys(loadModel).every(function (prop) { return prop !== 'realname'; }));
+        done();
+      });
+    });
+    it('hides private properties on list', function (done) {
+      app.collections.spies.list(function (err, models) {
+        assert.ifError(err);
+        assert.equal(models.length, 1);
+        assert(models.every(function (model) {
+          return Object.keys(model).every(function (prop) { return prop !== 'realname'; });
+        }));
+        done();
+      });
+    });
+    it('can still hide additional properties', function (done) {
+      app.collections.spies.list({ fields: { codename: 0 } }, function (err, models) {
+        assert.ifError(err);
+        assert.equal(models.length, 1);
+        assert(models.every(function (model) {
+          return Object.keys(model).every(function (prop) { return prop !== 'realname' && prop !== 'codename'; });
+        }));
+        done();
+      });
+    });
+    it('can still return only selected properties', function (done) {
+      app.collections.spies.list({ fields: { codename: 1 } }, function (err, models) {
+        assert.ifError(err);
+        assert.equal(models.length, 1);
+        assert(models.every(function (model) {
+          return Object.keys(model).every(function (prop) { return prop !== 'realname' && prop !== 'covername'; });
+        }));
+        done();
+      });
+    });
+    it('will not return private properties even if specifically asked to', function (done) {
+      app.collections.spies.list({ fields: { realname: 1, codename: 1 } }, function (err, models) {
+        assert.ifError(err);
+        assert.equal(models.length, 1);
+        assert(models.every(function (model) {
+          return Object.keys(model).every(function (prop) { return prop !== 'realname' && prop !== 'covername'; });
+        }));
+        done();
+      });
+    });
+    it('will not return hide required properties even if specifically asked to', function (done) {
+      app.collections.spies.list({ fields: { rev: 0, codename: 0 } }, function (err, models) {
+        assert.ifError(err);
+        assert.equal(models.length, 1);
+        assert(models.every(function (model) {
+          return ('rev' in model) && Object.keys(model).every(function (prop) { return prop !== 'realname' && prop !== 'codename'; });
+        }));
+        done();
+      });
+    });
+    it('permits including specified fields but excluding _id', function (done) {
+      app.collections.spies.list({ fields: { codename: 1, _id: 0 } }, function (err, models) {
+        assert.ifError(err);
+        assert.equal(models.length, 1);
+        assert(models.every(function (model) {
+          return Object.keys(model).every(function (prop) { return prop !== 'realname' && prop !== 'covername' && prop !== '_id'; });
+        }));
+        done();
+      });
+    });
+  });
 });
