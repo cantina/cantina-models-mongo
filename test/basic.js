@@ -79,14 +79,35 @@ describe('basic', function (){
         done();
       });
     });
-    it('can load a model', function (done) {
+    it('can load a model by id', function (done) {
       app.collections.people.load(model.id, function (err, loadModel) {
         assert.ifError(err);
+        assert(loadModel);
         Object.keys(loadModel).forEach(function (prop) {
           if (prop === '_id') assert(loadModel[prop].equals(model[prop]));
           else if (prop === 'created' || prop === 'updated') assert.equal(loadModel[prop].toString(), model[prop].toString());
           else assert.equal(loadModel[prop], model[prop]);
         });
+        done();
+      });
+    });
+    it('can load a model by query', function (done) {
+      app.collections.people.load({ first: 'Ultimate' }, function (err, loadModel) {
+        assert.ifError(err);
+        assert(loadModel);
+        Object.keys(loadModel).forEach(function (prop) {
+          if (prop === '_id') assert(loadModel[prop].equals(model[prop]));
+          else if (prop === 'created' || prop === 'updated') assert.equal(loadModel[prop].toString(), model[prop].toString());
+          else assert.equal(loadModel[prop], model[prop]);
+        });
+        done();
+      });
+    });
+    it('can load a model with options hash', function (done) {
+      app.collections.people.load(model.id, { returnKey: true }, function (err, result) {
+        assert.ifError(err);
+        assert(result);
+        assert.deepEqual(result, { id: model.id, rev: model.rev });
         done();
       });
     });
@@ -96,6 +117,23 @@ describe('basic', function (){
         assert(Array.isArray(list));
         assert.equal(list.length, 1);
         assert.equal(list[0].id, model.id);
+        done();
+      });
+    });
+    it('can list models by query', function (done) {
+      app.collections.people.list({ last: 'Warrior' }, null, function (err, list) {
+        assert.ifError(err);
+        assert.equal(list.length, 1);
+        assert.equal(list[0].id, model.id);
+        done();
+      });
+    });
+    it('can list models with an options hash', function (done) {
+      app.collections.people.list({ fields: { last: 1 } }, function (err, list) {
+        assert.ifError(err);
+        assert.equal(list.length, 1);
+        assert.equal(list[0].last, model.last);
+        assert.strictEqual(list[0].first, undefined);
         done();
       });
     });
@@ -185,12 +223,20 @@ describe('basic', function (){
     });
   });
 
-  describe('mongodb-native methods', function () {
+  describe('mongodb native collection methods', function () {
+    // Just a couple to make sure
     it('#findOne', function (done) {
-      app.collections.people.findOne({}, function (err, model) {
+      app.collections.people._findOne({}, function (err, model) {
         assert.ifError(err);
         assert(model);
         assert(model._id);
+        done();
+      });
+    });
+    it('#count', function (done) {
+      app.collections.people._count({}, function (err, count) {
+        assert.ifError(err);
+        assert.strictEqual(count, 2);
         done();
       });
     });
