@@ -1,1 +1,1 @@
---reporter spec --bail --timeout 5s --require test/common.js
+--reporter spec --bail --timeout 5s --require test/_common.js
