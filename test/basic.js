@@ -8,8 +8,7 @@ describe('basic', function (){
     app.boot(function(err) {
       app.conf.set('mongo:db', 'cantina-models-mongo-test-' + idgen());
       require('../');
-      if (err) return done(err);
-      app.start(done);
+      done(err);
     });
   });
 
