@@ -1,6 +1,6 @@
 {
   "name": "cantina-models-mongo",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "MongoDB store implementing a modeler-compatible API for cantina-models",
   "private": true,
   "main": "cantina-models-mongo.js",
