@@ -102,6 +102,22 @@ describe('basic', function (){
         done();
       });
     });
+    it('can load models by array of ids', function (done) {
+      app.collections.people.create({
+        first: 'Carlos',
+        last: 'Rodriquez',
+        email: 'carlos8f@gmail.com'
+      }, function (err, carlos) {
+        assert.ifError(err);
+        app.collections.people.load([carlos.id, model.id], function (err, models) {
+          assert.ifError(err);
+          assert(models);
+          assert(Array.isArray(models));
+          assert.equal(models.length, 2);
+          app.collections.people.destroy(carlos, done);
+        });
+      });
+    });
     it('can load a model with options hash', function (done) {
       app.collections.people.load(model.id, { returnKey: true }, function (err, result) {
         assert.ifError(err);
