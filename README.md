@@ -92,3 +92,11 @@ are proxied on the collection, prefixed with an underscore (e.g.,
 
 **N.B.** `cantina-models` events and hooks will not be triggered for any of native
 method calls.
+
+- - -
+
+### Developed by [Terra Eclipse](http://www.terraeclipse.com)
+Terra Eclipse, Inc. is a nationally recognized political technology and
+strategy firm located in Santa Cruz, CA and Washington, D.C.
+
+Copyright (C) 2013-2014 Terra Eclipse, Inc. (http://www.terraeclipse.com)
