@@ -1,7 +1,7 @@
 {
   "name": "cantina-models-mongo",
   "description": "MongoDB store implementing a modeler-compatible API for cantina-models",
-  "version": "4.0.0-dev",
+  "version": "4.1.0",
   "publishConfig": {
     "registry": "https://npm-registry.terraeclipse.com"
   },
