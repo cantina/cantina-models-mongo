@@ -1,7 +1,8 @@
-var app = require('cantina')
-  , mongoStore = require('./lib/mongo-store');
+module.exports = function (app) {
+  var mongoStore = app.require('./lib/mongo-store');
 
-require('cantina-models');
-require('cantina-mongo');
+  app.require('cantina-models');
+  app.require('cantina-mongo');
 
-app.createCollectionFactory('mongo', mongoStore, { db: app.mongo });
+  app.createCollectionFactory('mongo', mongoStore, { db: app.mongo });
+};

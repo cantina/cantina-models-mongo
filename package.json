@@ -25,14 +25,14 @@
     "nested-objects": "^0.0.2"
   },
   "peerDependencies": {
-    "cantina": "~4.0.0",
-    "cantina-models": "~4.0.0",
-    "cantina-mongo": "~4.0.0"
+    "cantina": "~4.1.0",
+    "cantina-models": "~4.1.0",
+    "cantina-mongo": "~4.1.0"
   },
   "devDependencies": {
     "mocha": "^1.18.2",
-    "cantina": "~4.0.0",
-    "cantina-models": "~4.0.0",
-    "cantina-mongo": "~4.0.0"
+    "cantina": "~4.1.0",
+    "cantina-models": "~4.1.0",
+    "cantina-mongo": "~4.1.0"
   }
 }

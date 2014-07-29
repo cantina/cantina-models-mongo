@@ -4,10 +4,10 @@ describe('basic', function (){
     , model;
 
   before(function (done) {
-    app = require('cantina');
+    app = require('cantina').createApp();
     app.boot(function(err) {
       app.conf.set('mongo:db', 'cantina-models-mongo-test-' + idgen());
-      require('../');
+      app.require('../');
       done(err);
     });
   });
