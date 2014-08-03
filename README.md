@@ -98,5 +98,3 @@ method calls.
 ### Developed by [Terra Eclipse](http://www.terraeclipse.com)
 Terra Eclipse, Inc. is a nationally recognized political technology and
 strategy firm located in Santa Cruz, CA and Washington, D.C.
-
-Copyright (C) 2013-2014 Terra Eclipse, Inc. (http://www.terraeclipse.com)

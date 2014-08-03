@@ -2,9 +2,6 @@
   "name": "cantina-models-mongo",
   "description": "MongoDB store implementing a modeler-compatible API for cantina-models",
   "version": "4.1.0",
-  "publishConfig": {
-    "registry": "https://npm-registry.terraeclipse.com"
-  },
   "main": "cantina-models-mongo.js",
   "scripts": {
     "test": "make test"
@@ -13,8 +10,13 @@
     "type": "git",
     "url": "git://github.com/cantina/cantina-models-mongo.git"
   },
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  ],
   "author": "",
-  "license": "none",
   "bugs": {
     "url": "https://github.com/cantina/cantina-models-mongo/issues"
   },
