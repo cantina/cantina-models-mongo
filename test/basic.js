@@ -236,6 +236,20 @@ describe('basic', function (){
         done();
       });
     });
+
+    it('runs `model:load:[name]` hook', function (done) {
+      app.hook('model:load:people').add(function onHook (model, next) {
+        model.loadHookRan = true;
+        next();
+      });
+      app.collections.people.list(function (err, models) {
+        assert.ifError(err);
+        assert.equal(models.length, 2);
+        assert(models[0].loadHookRan);
+        assert(models[1].loadHookRan);
+        done();
+      });
+    });
   });
 
   describe('mongodb native collection methods', function () {
