@@ -152,6 +152,13 @@ describe('basic', function (){
         done();
       });
     });
+    it('can list models with no results', function (done) {
+      app.collections.people.list({notafield: 'notavalue'}, null, function (err, list) {
+        assert.ifError(err);
+        assert.equal(list.length, 0);
+        done();
+      });
+    });
     it('can save partial changes to an existing model', function (done) {
       var attrs = {
         id: model.id,
